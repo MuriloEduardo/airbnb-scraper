@@ -1,3 +1,4 @@
+import argparse
 from driver_manager import DriverManager
 from titulo_extractor import TituloExtractor
 from preco_extractor import PrecoExtractor
@@ -5,13 +6,22 @@ from disponibilidade_extractor import DisponibilidadeExtractor
 
 
 def main():
+    # Configura o parser de argumentos
+    parser = argparse.ArgumentParser(description='Verificador de disponibilidade do Airbnb')
+    parser.add_argument('--id', required=True, help='ID do quarto no Airbnb')
+    parser.add_argument('--check_in', required=True, help='Data de check-in (YYYY-MM-DD)')
+    parser.add_argument('--check_out', required=True, help='Data de check-out (YYYY-MM-DD)')
+    parser.add_argument('--adults', default=1, type=int, help='Número de adultos (padrão: 1)')
+    args = parser.parse_args()
+
     # Inicializa o gerenciador de driver
     driver_manager = DriverManager()
     driver = driver_manager.iniciar_driver()
 
     try:
-        # URL com datas e 1 adulto
-        url = "https://www.airbnb.com.br/rooms/769729843373520689?check_in=2025-06-18&check_out=2025-06-20&adults=1"
+        # URL com os parâmetros fornecidos via linha de comando
+        url = f"https://www.airbnb.com.br/rooms/{args.id}?check_in={args.check_in}&check_out={args.check_out}&adults={args.adults}"
+        print(f"🔗 URL: {url}")
         driver_manager.carregar_url(url)
 
         # Extrai as informações usando as classes especializadas
@@ -46,6 +56,9 @@ def main():
         # Garante que o driver será encerrado
         driver_manager.encerrar_driver()
 
+
+# Exemplo de uso:
+# python main.py --id 769729843373520689 --check_in 2025-06-01 --check_out 2025-06-08 --adults 1
 
 if __name__ == "__main__":
     main()
