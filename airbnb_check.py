@@ -26,29 +26,22 @@ except:
 
 # 💸 Busca spans com "R$"
 spans = driver.find_elements(By.XPATH, "//span[contains(text(),'R$')]")
-preco_por_noite = None
-total_estimado = None
+preco_total = None
 
-# Primeiro, procura o total
+# Procura o preço com informação de noites (mais completo)
 for span in spans:
     texto = span.text.strip()
-    if ("Total" in texto or "total" in texto) and not total_estimado:
-        total_estimado = texto
+    if "noite" in texto and "R$" in texto:
+        preco_total = texto
         break
 
-# Depois, procura o preço por noite
-for span in spans:
-    texto = span.text.strip()
-    if "noite" in texto and not preco_por_noite:
-        preco_por_noite = texto
-        break
-
-# Se ainda não encontrou o total, pega o primeiro preço sem "noite"
-if not total_estimado:
+# Se não encontrou preço com noites, procura outros valores
+if not preco_total:
+    # No Airbnb atual, o total geralmente não tem a palavra "Total"
     for span in spans:
         texto = span.text.strip()
         if "R$" in texto and "noite" not in texto:
-            total_estimado = texto
+            preco_total = texto
             break
 
 # ❌ Disponibilidade
@@ -56,15 +49,10 @@ indisponivel = driver.find_elements(By.XPATH, "//*[contains(text(),'indisponíve
 
 print(f"🏡 Título do anúncio: {titulo}")
 
-if preco_por_noite:
-    print(f"💰 Preço por noite: {preco_por_noite}")
+if preco_total:
+    print(f"💰 Valor total: {preco_total}")
 else:
-    print("⚠️ Preço por noite não encontrado.")
-
-if total_estimado:
-    print(f"📦 Total: {total_estimado}")
-else:
-    print("⚠️ Total não encontrado.")
+    print("⚠️ Preço não encontrado.")
 
 if indisponivel:
     print("❌ Imóvel indisponível nas datas selecionadas.")
