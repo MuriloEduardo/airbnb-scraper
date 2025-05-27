@@ -97,7 +97,3 @@ O ID é `769729843373520689`.
 - Este script é apenas para fins educacionais e pessoais
 - O uso de web scrapers pode violar os Termos de Serviço do Airbnb
 - O layout do site Airbnb pode mudar, exigindo atualizações no script
-
-## 📄 Licença
-
-Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
