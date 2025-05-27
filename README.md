@@ -19,7 +19,7 @@ Um script Python modular que utiliza Selenium para verificar a disponibilidade e
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/seu-usuario/verificador-disponibilidade-airbnb.git
+   git clone https://github.com/MuriloEduardo/airbnb-scraper.git
    cd verificador-disponibilidade-airbnb
    ```
 
