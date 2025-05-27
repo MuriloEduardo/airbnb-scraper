@@ -20,9 +20,19 @@ class DisponibilidadeExtractor:
         Returns:
             bool: True se disponível, False se indisponível
         """
-        indisponivel = self.driver.find_elements(
-            By.XPATH, "//*[contains(text(),'indisponível')]"
+        # Verifica diferentes mensagens de indisponibilidade que podem aparecer
+        xpath_query = (
+            "//*[contains(text(),'indisponível') or "
+            "contains(text(),'Essas datas não estão disponíveis') or "
+            "contains(text(),'não estão disponíveis')]"
         )
-
-        # Se não encontrou mensagem de indisponível, está disponível
+        
+        indisponivel = self.driver.find_elements(By.XPATH, xpath_query)
+        
+        # Salvar a mensagem encontrada para debug e exibição
+        self.mensagem_indisponivel = None
+        if indisponivel:
+            self.mensagem_indisponivel = indisponivel[0].text.strip()
+            
+        # Se não encontrou nenhuma das mensagens, está disponível
         return len(indisponivel) == 0

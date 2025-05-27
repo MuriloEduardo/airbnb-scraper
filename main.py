@@ -11,7 +11,7 @@ def main():
 
     try:
         # URL com datas e 1 adulto
-        url = "https://www.airbnb.com.br/rooms/1131434074821709093?check_in=2025-06-01&check_out=2025-06-05&adults=1"
+        url = "https://www.airbnb.com.br/rooms/769729843373520689?check_in=2025-06-18&check_out=2025-06-20&adults=1"
         driver_manager.carregar_url(url)
 
         # Extrai as informações usando as classes especializadas
@@ -36,6 +36,11 @@ def main():
             print("✅ Imóvel disponível nas datas selecionadas.")
         else:
             print("❌ Imóvel indisponível nas datas selecionadas.")
+            # Se tiver uma mensagem específica, mostre-a
+            if (hasattr(disponibilidade_extractor, 'mensagem_indisponivel') and
+                    disponibilidade_extractor.mensagem_indisponivel):
+                motivo = disponibilidade_extractor.mensagem_indisponivel
+                print(f"📝 Motivo: {motivo}")
 
     finally:
         # Garante que o driver será encerrado
